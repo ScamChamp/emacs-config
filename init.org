@@ -1,5 +1,3 @@
-
-
 #+TITLE: Pranshu's emacs configuration
 
 
@@ -42,7 +40,7 @@ operations.
 	(unless (file-directory-p "~/emacs-var/")
 	  (make-directory "~/emacs-var/"))
 
-	(setq abbrev-file-name                 (concat user-emacs-directory "etc/" "abbrev.el"))
+  (setq abbrev-file-name                 (concat user-emacs-directory "etc/" "abbrev.el"))
 	(setq auto-insert-directory            (concat user-emacs-directory "etc/"  "auto-insert/"))
 	(setq auto-save-list-file-prefix       "~/emacs-var/auto-save/sessions/")
 	(setq backup-directory-alist           (list (cons "." "~/emacs-var/backup/")))
@@ -156,7 +154,7 @@ operations.
   (setq message-send-mail-function 'smtpmail-send-it)
   (setq send-mail-function 'smtpmail-send-it)
 
-  (setq mail-sources '((pop :server "mail.autistici.org" :user ""
+  (setq mail-sources '((pop :server "" :user ""
 							:password "" )))
 
   (setq user-mail-address "" user-full-name "Pranshu Sharma")
@@ -728,7 +726,6 @@ I prefer tabs, but emacs uses a mix of tabs as spaces which is a worse then spac
 ** Tools
 
 *** Programming modes 
-When adding html mode add the keybinding thing
 
 **** Lisp mode
 
@@ -788,6 +785,7 @@ complication is not worth the extra feauteres C-c q to compile current defun
 #+end_src
 
 **** Haskell mode
+My magnum opus
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   ;;k
@@ -1356,8 +1354,8 @@ While org mode is great and all I feel like it adds complexity
 	 ("z". org-agenda-select-file)
 	 ("h" . org-agenda)))
 
-
-
+(require 'org-agenda)
+(define-key org-agenda-mode-map (kbd "2") 'org-agenda-month-view)
 
   (setq org-todo-keywords '((sequence "todo(t)" "finish(f)" "progress(p)" "|" "done(d)" )
 							(sequence "meeting(m)" "rendezvous(r)" "appointment(a)" "next(n)" "|" "cancelled(c)" )
