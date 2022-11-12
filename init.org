@@ -1,6 +1,8 @@
+
+
 #+TITLE: Pranshu's emacs configuration
 
-# add org shortcuts
+
 * How to install
 Just edit the settings.el file
 
@@ -9,122 +11,123 @@ Just edit the settings.el file
 
 None!
 
+
 ** Key bindings
 
 *** main mode map
 
 
 
-* Code
+*Code
+
 
 ** Early init
 This is full of performance optimizations and major screen changing
 operations.
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-    ;; -*- lexical-binding: t; -*- Pranshu's emacs configuration
+	;; -*- lexical-binding: t; -*- Pranshu's emacs configuration
 
-    ;; When to activate the garbage cleaner (setq gc-cons-threshold (*
-    (setq gc-cons-threshold (* 100 1024 1024))
-    (setq inhibit-startup-message t)
+	;; When to activate the garbage cleaner (setq gc-cons-threshold )*
+	(setq gc-cons-threshold (* 100 1024 1024))
+	(setq inhibit-startup-message t)
 
-    ;; Screen changes to make emacs look more minimal (menu-bar-mode -1)
-    (toggle-scroll-bar -1)
-    (tool-bar-mode -1)
-    (set-fringe-mode 33)
-    (menu-bar-mode -1)
+	;; Screen changes to make emacs look more minimal (menu-bar-mode -1)
+	(toggle-scroll-bar -1)
+	(tool-bar-mode -1)
+	(set-fringe-mode 33)
+	(menu-bar-mode -1)
 
-    ;; thanks to purcell's no-littering package
+	;; thanks to purcell's no-littering package
 
-    (unless (file-directory-p "~/emacs-var/")
-      (make-directory "~/emacs-var/"))
+	(unless (file-directory-p "~/emacs-var/")
+	  (make-directory "~/emacs-var/"))
 
-    (setq abbrev-file-name                 (concat user-emacs-directory "etc/" "abbrev.el"))
-    (setq auto-insert-directory            (concat user-emacs-directory "etc/"  "auto-insert/"))
-    (setq auto-save-list-file-prefix       "~/emacs-var/auto-save/sessions/")
-    (setq backup-directory-alist           (list (cons "." "~/emacs-var/backup/")))
-    (setq bookmark-default-file            "~/emacs-var/bookmark-default.el")
-    (setq calc-settings-file               (concat user-emacs-directory "etc/"  "calc-settings.el"))
-    (eval-after-load 'desktop
-      '(make-directory "~/emacs-var/desktop/" t))
+	(setq abbrev-file-name                 (concat user-emacs-directory "etc/" "abbrev.el"))
+	(setq auto-insert-directory            (concat user-emacs-directory "etc/"  "auto-insert/"))
+	(setq auto-save-list-file-prefix       "~/emacs-var/auto-save/sessions/")
+	(setq backup-directory-alist           (list (cons "." "~/emacs-var/backup/")))
+	(setq bookmark-default-file            "~/emacs-var/bookmark-default.el")
+	(setq calc-settings-file               (concat user-emacs-directory "etc/"  "calc-settings.el"))
+	(eval-after-load 'desktop
+	  '(make-directory "~/emacs-var/desktop/" t))
 
-    (setq desktop-dirname                  "~/emacs-var/desktop/")
-    (setq desktop-path                     (list desktop-dirname))
-    (setq diary-file                       "~/emacs-var/diary")
-    (setq ecomplete-database-file          "~/emacs-var/ecomplete-database.el")
-    (setq ede-project-placeholder-cache-file "~/emacs-var/ede-projects.el")
-    (eval-after-load 'erc
-      '(make-directory "~/emacs-var/erc/dcc/" t ))
-    (setq erc-dcc-get-default-directory    "~/emacs-var/erc/dcc/")
-    (setq erc-log-channels-directory       "~/emacs-var/erc/log-channels/")
-    (eval-after-load 'eshell
-      '(make-directory (concat user-emacs-directory "etc/"  "eshell/") t))
+	(setq desktop-dirname                  "~/emacs-var/desktop/")
+	(setq desktop-path                     (list desktop-dirname)  )
+	(setq diary-file                       "~/emacs-var/diary")
+	(setq ecomplete-database-file          "~/emacs-var/ecomplete-database.el")
+	(setq ede-project-placeholder-cache-file "~/emacs-var/ede-projects.el")
+	(eval-after-load 'erc
+	  '(make-directory "~/emacs-var/erc/dcc/" t )  )
+	(setq erc-dcc-get-default-directory    "~/emacs-var/erc/dcc/")
+	(setq erc-log-channels-directory       "~/emacs-var/erc/log-channels/")
+	(eval-after-load 'eshell
+	  '(make-directory (concat user-emacs-directory "etc/"  "eshell/") t) )
 
-    (setq eshell-aliases-file              (concat user-emacs-directory "etc/"  "eshell/aliases"))
-    (setq eshell-rc-script                 (concat user-emacs-directory "etc/"  "eshell/rc"))
-    (setq eshell-login-script              (concat user-emacs-directory "etc/"  "eshell/login"))
-    (setq eshell-directory-name            "~/emacs-var/eshell/")
-    (setq eudc-options-file                (concat user-emacs-directory "etc/"  "eudc-options.el"))
-    (eval-after-load 'eww
-      '(make-directory "~/emacs-var/eww/" t))
-    (setq eww-bookmarks-directory          "~/emacs-var/eww/")
-    (setq filesets-menu-cache-file         "~/emacs-var/filesets-menu-cache.el")
-    (setq gamegrid-user-score-file-directory "~/emacs-var/gamegrid-user-score/")
-    (eval-after-load 'gnus
-      '(make-directory "~/emacs-var/gnus/dribble/" t))
-    (setq gnus-dribble-directory           "~/emacs-var/gnus/dribble/")
-    (setq gnus-init-file                   (concat user-emacs-directory "etc/"  "gnus/init.el"))
-    (setq ido-save-directory-list-file     "~/emacs-var/ido-save-directory-list.el")
-    (setq image-dired-db-file              "~/emacs-var/image-dired/db.el")
-    (setq image-dired-dir                  "~/emacs-var/image-dired/")
-    (setq image-dired-gallery-dir          "~/emacs-var/image-dired/gallery/")
-    (setq image-dired-temp-image-file      "~/emacs-var/image-dired/temp-image")
-    (setq image-dired-temp-rotate-image-file "~/emacs-var/image-dired/temp-rotate-image")
-    (setq kkc-init-file-name               "~/emacs-var/kkc-init.el")
-    (setq multisession-directory           "~/emacs-var/multisession/")
-    (eval-after-load 'newsticker
-      '(make-directory "~/emacs-var/newsticker/" t))
-    (setq newsticker-cache-filename        "~/emacs-var/newsticker/cache.el")
-    (setq newsticker-dir                   "~/emacs-var/newsticker/data/")
-    (setq nsm-settings-file                "~/emacs-var/nsm-settings.el")
-    (eval-after-load 'org
-      '(make-directory "~/emacs-var/org/" t))
-
+	(setq eshell-aliases-file              (concat user-emacs-directory "etc/"  "eshell/aliases"))
+	(setq eshell-rc-script                 (concat user-emacs-directory "etc/"  "eshell/rc"))
+	(setq eshell-login-script              (concat user-emacs-directory "etc/"  "eshell/login"))
+	(setq eshell-directory-name            "~/emacs-var/eshell/")
+	(setq eudc-options-file                (concat user-emacs-directory "etc/"  "eudc-options.el"))
+	(eval-after-load 'eww
+	  '(make-directory "~/emacs-var/eww/" t))
+	(setq eww-bookmarks-directory          "~/emacs-var/eww/")
+	(setq filesets-menu-cache-file         "~/emacs-var/filesets-menu-cache.el")
+	(setq gamegrid-user-score-file-directory "~/emacs-var/gamegrid-user-score/")
+	(eval-after-load 'gnus
+	  '(make-directory "~/emacs-var/gnus/dribble/" t))
+	(setq gnus-dribble-directory           "~/emacs-var/gnus/dribble/")
+	(setq gnus-init-file                   (concat user-emacs-directory "etc/"  "gnus/init.el"))
+	(setq ido-save-directory-list-file     "~/emacs-var/ido-save-directory-list.el")
+	(setq image-dired-db-file              "~/emacs-var/image-dired/db.el")
+	(setq image-dired-dir                  "~/emacs-var/image-dired/")
+	(setq image-dired-gallery-dir          "~/emacs-var/image-dired/gallery/")
+	(setq image-dired-temp-image-file      "~/emacs-var/image-dired/temp-image")
+	(setq image-dired-temp-rotate-image-file "~/emacs-var/image-dired/temp-rotate-image")
+	(setq kkc-init-file-name               "~/emacs-var/kkc-init.el")
+	(setq multisession-directory           "~/emacs-var/multisession/")
+	(eval-after-load 'newsticker
+	  '(make-directory "~/emacs-var/newsticker/" t))
+	(setq newsticker-cache-filename        "~/emacs-var/newsticker/cache.el")
+	(setq newsticker-dir                   "~/emacs-var/newsticker/data/")
+	(setq nsm-settings-file                "~/emacs-var/nsm-settings.el")
+  (make-directory "~/emacs-var/org/var/" t)
   (setq doc-view-cache-directory "~/emacs-var/dov-veiw/")
-  
-    ;; (eval-after-load 'remember
-    ;;  '(make-directory "~/emacs-var/org/" t))
-    (setq org-clock-persist-file           "~/emacs-var/org/clock-persist.el")
-    (setq org-id-locations-file            "~/emacs-var/org/id-locations.el")
-    (setq org-persist-directory            "~/emacs-var/org/persist/")
-    (setq org-publish-timestamp-directory  "~/emacs-var/org/timestamps/")
-    (setq project-list-file                "~/emacs-var/project-list.el")
-    (setq quickurl-url-file                "~/emacs-var/quickurl-url.el")
-    (setq rcirc-log-directory              "~/emacs-var/rcirc-log/")
-    (setq recentf-save-file                "~/emacs-var/recentf-save.el")
-    ;; (setq remember-data-file               "~/emacs-var/remember/data")
-    ;; (setq remember-data-directory          "~/emacs-var/remember/data.d/")
-    (setq save-place-file                  "~/emacs-var/save-place.el")
-    (setq savehist-file                    "~/emacs-var/savehist.el")
-    (setq srecode-map-save-file            "~/emacs-var/srecode-map.el")
-    (setq semanticdb-default-save-directory "~/emacs-var/semantic/")
-    (eval-after-load 'shadowfile
-      '(make-directory "~/emacs-var/shadow/" t))
-    (setq shadow-info-file                 "~/emacs-var/shadow/info.el")
-    (setq shadow-todo-file                 "~/emacs-var/shadow/todo.el")
-    (setq shared-game-score-directory      "~/emacs-var/shared-game-score/")
-    (setq timeclock-file                   "~/emacs-var/timeclock")
-    (setq tramp-auto-save-directory        "~/emacs-var/tramp/auto-save/")
-    (setq tramp-persistency-file-name      "~/emacs-var/tramp/persistency.el")
-    (setq type-break-file-name             "~/emacs-var/type-break.el")
-    (setq url-cache-directory              "~/emacs-var/url/cache/")
-    (setq url-configuration-directory      "~/emacs-var/url/")
-    (setq url-cookie-file                  "~/emacs-var/url/cookies.el")
-    (setq url-history-file                 "~/emacs-var/url/history.el")
+	(make-directory "~/emacs-var/org/capture" t)
+
+	;; (eval-after-load 'remember
+	;;  '(make-directory "~/emacs-var/org/" t))
+	(setq org-clock-persist-file           "~/emacs-var/org/var/clock-persist.el")
+	(setq org-id-locations-file            "~/emacs-var/org/var/id-locations.el")
+	(setq org-persist-directory            "~/emacs-var/org/var/persist/")
+	(setq org-publish-timestamp-directory  "~/emacs-var/org/var/timestamps/")
+	(setq project-list-file                "~/emacs-var/project-list.el")
+	(setq quickurl-url-file                "~/emacs-var/quickurl-url.el")
+	(setq rcirc-log-directory              "~/emacs-var/rcirc-log/")
+	(setq recentf-save-file                "~/emacs-var/recentf-save.el")
+	;; (setq remember-data-file               "~/emacs-var/remember/data")
+	;; (setq remember-data-directory          "~/emacs-var/remember/data.d/")
+	(setq save-place-file                  "~/emacs-var/save-place.el")
+	(setq savehist-file                    "~/emacs-var/savehist.el")
+	(setq srecode-map-save-file            "~/emacs-var/srecode-map.el")
+	(setq semanticdb-default-save-directory "~/emacs-var/semantic/")
+	(eval-after-load 'shadowfile
+	  '(make-directory "~/emacs-var/shadow/" t))
+  (setq shadow-info-file                 "~/emacs-var/shadow/info.el")
+	(setq shadow-todo-file                 "~/emacs-var/shadow/todo.el")
+	(setq shared-game-score-directory      "~/emacs-var/shared-game-score/")
+	(setq timeclock-file                   "~/emacs-var/timeclock")
+	(setq tramp-auto-save-directory        "~/emacs-var/tramp/auto-save/")
+	(setq tramp-persistency-file-name      "~/emacs-var/tramp/persistency.el")
+	(setq type-break-file-name             "~/emacs-var/type-break.el")
+	(setq url-cache-directory              "~/emacs-var/url/cache/")
+	(setq url-configuration-directory      "~/emacs-var/url/")
+	(setq url-cookie-file                  "~/emacs-var/url/cookies.el")
+	(setq url-history-file                 "~/emacs-var/url/history.el")
 
 
-    (defvar pranshu-edit-mode-map (make-sparse-keymap)
-      "The main keymap")
+	(defvar pranshu-edit-mode-map (make-sparse-keymap)
+	  "The main keymap")
 
 
 
@@ -135,72 +138,71 @@ operations.
 ** Main path and font information change when changing machines
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/settings.el
-      ;;---------------------------------------------------------------------------
-      ;;---------------------------------------------------------------------------
+  ;;---------------------------------------------------------------------------
+  ;;---------------------------------------------------------------------------
 
   (setq gnusmailpath "~/GnusMail") ; Where the GnusMail shoud go.
   (add-to-list 'exec-path "C:/stuff/hunspell/bin") ; Spellchecker path only needed for windows
   (setq inferior-lisp-program "sbcl")
-
-
-  (setq norm-font "Hack")
+  (setq ghc-location (executable-find "ghci"))
+  (setq max-doc-view-cache 20)
+  (setq norm-font "B612 Mono")
   (setq doc-view-resolution 350) ;; dpi
-      (setq norm-font-height 18)
+  (setq norm-font-height 22)
 
-      (setq send-mail-function 'smtpmail-send-it)
-    (setq message-send-mail-function 'smtpmail-send-it)
-      (setq smtpmail-smtp-server "smtp.autistici.org")
-      (setq smtpmail-smtp-service 587)
-      (setq message-send-mail-function 'smtpmail-send-it)
-      (setq send-mail-function 'smtpmail-send-it)
+  (setq send-mail-function 'smtpmail-send-it)
+  (setq message-send-mail-function 'smtpmail-send-it)
+  (setq smtpmail-smtp-server "smtp.autistici.org")
+  (setq smtpmail-smtp-service 587)
+  (setq message-send-mail-function 'smtpmail-send-it)
+  (setq send-mail-function 'smtpmail-send-it)
 
-      (setq mail-sources '((pop :server "mail.autistici.org" :user ""
-                                :password "" )))
+  (setq mail-sources '((pop :server "mail.autistici.org" :user ""
+							:password "" )))
 
-      (setq user-mail-address "" user-full-name "Pranshu Sharma")
+  (setq user-mail-address "" user-full-name "Pranshu Sharma")
 
 
   (defvar qwerty-to-kmap
-      '(("." . ".")
-        ("," . ",")
-        ("'" . "'")
-        (";" . ";")
-        ("/" . "/")
-        ("[" . "[")
-        ("]" . "]")
-        ("=" . "=")
-        ("-" . "-")
-        ("a" . "a")
-        ("b" . "b")
-        ("c" . "c")
-        ("d" . "d")
-        ("e" . "e")
-        ("f" . "f")
-        ("g" . "g")
-        ("h" . "h")
-        ("i" . "i")
-        ("j" . "j")
-        ("k" . "k")
-        ("l" . "l")
-        ("n" . "n")
-        ("o" . "o")
-        ("p" . "p")
-        ("q" . "q")
-        ("r" . "r")
-        ("s" . "s")
-        ("t" . "t")
-        ("u" . "u")
-        ("v" . "v")
-        ("w" . "w")
-        ("x" . "x")
-        ("y" . "y")
-        ("z" . "z"))
-      )
+	'(("." . ".")
+	  ("," . ",")
+	  ("'" . "'")
+	  (";" . ";")
+	  ("/" . "/")
+	  ("[" . "[")
+	  ("]" . "]")
+	  ("=" . "=")
+	  ("-" . "-")
+	  ("a" . "a")
+	  ("b" . "b")
+	  ("c" . "c")
+	  ("d" . "d")
+	  ("e" . "e")
+	  ("f" . "f")
+	  ("g" . "g")
+	  ("h" . "h")
+	  ("i" . "i")
+	  ("j" . "j")
+	  ("k" . "k")
+	  ("l" . "l")
+	  ("n" . "n")
+	  ("o" . "o")
+	  ("p" . "p")
+	  ("q" . "q")
+	  ("r" . "r")
+	  ("s" . "s")
+	  ("t" . "t")
+	  ("u" . "u")
+	  ("v" . "v")
+	  ("w" . "w")
+	  ("x" . "x")
+	  ("y" . "y")
+	  ("z" . "z"))
+	)
 
 
-      ;;---------------------------------------------------------------------------
-      ;;---------------------------------------------------------------------------
-
+  ;;---------------------------------------------------------------------------
+  ;;---------------------------------------------------------------------------
 #+end_src
 
 *** If windows is being used
@@ -230,31 +232,33 @@ operations.
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   (if (file-exists-p "~/.emacs.d/settings.elc")
-      (load-file "~/.emacs.d/settings.elc")
-    (load-file "~/.emacs.d/settings.el"))
+	  (load-file "~/.emacs.d/settings.elc")
+	(load-file "~/.emacs.d/settings.el"))
 
 
   (defun layout-check (Charstr)
-    "Return the corresponding char Charstr according to
+	"Return the corresponding char Charstr according to
   `xah-fly--current-layout-kmap'. Charstr must be a string of single
   char. If more than 1 char, return it unchanged.
   Version: 2020-04-18"
-    (interactive)
-    (if (> (length Charstr) 1)
-        Charstr
-      (let (($result (assoc Charstr qwerty-to-kmap)))
-        (if $result (cdr $result) Charstr ))))
+	(interactive)
+	(if (> (length Charstr) 1)
+		Charstr
+	  (let (($result (assoc Charstr qwerty-to-kmap)))
+		(if $result (cdr $result) Charstr ))))
 
   (defmacro pranshu-define-key (KeymapName KeyCmdAlist &optional DirectQ)
-    (let (($keymapName 'keymap-name))
-      `(let ((,$keymapName , KeymapName))
-         ,@(mapcar
-            (lambda ($pair)
-              `(define-key
-                 ,$keymapName
-                 (kbd (,(if DirectQ #'identity #'layout-check) ,(car $pair)))
-                 ,(list 'quote (cdr $pair))))
-            (cadr KeyCmdAlist)))))
+	(let (($keymapName 'keymap-name))
+	  `(let ((,$keymapName , KeymapName))
+		 ,@(mapcar
+			(lambda ($pair)
+			  `(define-key
+				 ,$keymapName
+				 (kbd (,(if DirectQ #'identity #'layout-check) ,(car $pair)))
+				 ,(list 'quote (cdr $pair))))
+			(cadr KeyCmdAlist)))))
+
+  (define-prefix-command 'leader-key-map)
 
 
 #+end_src
@@ -308,51 +312,53 @@ add modeline
 **** Center text
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-
-  (defcustom automargin-target-width 98 "width of the margined
-      window")
-
-
-  (define-minor-mode automargin-mode "automatically add margins to
-    windows"
-    :global nil
-    (if automargin-mode
-        (add-hook
-         'window-configuration-change-hook 'automargin-function nil t)
+		(define-minor-mode automargin-mode "automatically add margins to
+		  windows"
+		  :global nil
+		  (if automargin-mode
+			  (add-hook
+			   'window-configuration-change-hook 'automargin-function nil t)
 
 
-      (remove-hook 'window-configuration-change-hook 'automargin-function
-                   t)))
+			(remove-hook 'window-configuration-change-hook 'automargin-function
+						 t)))
 
-  (defun automargin--window-width (&optional window) (let ((margins
-                                                            (window-margins window))
-                                                           (width (window-width window)))
-                                                       (+ width
-                                                          (or (car margins) 0) (or (cdr margins) 0))))
+		(defun automargin--window-width (&optional window) (let ((margins
+																  (window-margins window))
+																 (width (window-width window)))
+															 (+ width
+																(or (car margins) 0) (or (cdr margins) 0))))
 
 
-  (defun automargin-function ()
-    (interactive)
-    (let*
-        (
-         (automargin-margin
-          (/ (- (frame-width) automargin-target-width)
-             2))
-         (automargin-margin
-          (if
-              (< automargin-margin 0) 0
-            automargin-margin)))
-      (dolist (window (window-list))
-        (let ((margin
-               (if (= (frame-width) (automargin--window-width window))
-                   automargin-margin 0)))
-          (set-window-margins window margin
-                              margin)))
+		(defun automargin-function ()
+		  (interactive)
+		  (let*
+			  (
+			   (target-width (/  (frame-width) 1.5))
+  Sf
+			   (automargin-margin
+				(truncate (/ (- (frame-width) target-width)
+				   2)))
+			   (automargin-margin
+				(if
+					(< automargin-margin 0) 0
+				  automargin-margin)))
+			  (let ((margin
+					 (if (= (frame-width) (automargin--window-width (selected-window)))
+						 automargin-margin 0)))
+				(set-window-margins (selected-window) margin
+									margin)
 
-      (set-fill-column automargin-target-width)))
+				)
+			  (let ((fill-target (truncate target-width)))
+		(unless (eq fill-target fill-column)
+		 (set-fill-column fill-target))
 
-  ;;(set-window-margins nil nil nil) to reverse
+			  )
 
+			))
+
+		;;(set-window-margins nil nil nil) to reverse
 #+end_src
 
 *** Quicknote
@@ -413,71 +419,71 @@ something.  By pranshu fully.
 
 
   (defun select-symbol()
-    "Selects the current symbol"
-    (interactive)
-    (skip-syntax-forward "'")
-    (skip-syntax-forward "_w")
-    (push-mark (point) t t)
-    (skip-syntax-backward "_w")
-    (skip-syntax-backward "'"))
+	"Selects the current symbol"
+	(interactive)
+	(skip-syntax-forward "'")
+	(skip-syntax-forward "_w")
+	(push-mark (point) t t)
+	(skip-syntax-backward "_w")
+	(skip-syntax-backward "'"))
 
   (defun select-string()
-    "Selecting inside a string including the string itself"
-    (interactive)
-    (goto-char (nth 8 (syntax-ppss)))
-    (set-mark (point))
-    (forward-sexp)
-    )
+	"Selecting inside a string including the string itself"
+	(interactive)
+	(goto-char (nth 8 (syntax-ppss)))
+	(set-mark (point))
+	(forward-sexp)
+	)
 
   ;; to check if point is on the paren
   ;; (looking-at "\\s(")
   ;; (looking-at "\\s)")
 
   (defun looking-at-forward-paren()
-    (interactive)
-    (set-mark (point))
-    (forward-list))
+	(interactive)
+	(set-mark (point))
+	(forward-list))
 
   (defun looking-at-backward-paren()
-    (interactive)
-    (set-mark (point))
-    (forward-char)
-    (backward-list))
+	(interactive)
+	(set-mark (+ 1 (point)))
+	(forward-char)
+	(backward-list))
 
   (defun highlight-paren-block()
-    (interactive)
-    (goto-char (nth 1 (syntax-ppss)))
-    (set-mark (point))
-    (forward-list)
-    )
+	(interactive)
+	(goto-char (nth 1 (syntax-ppss)))
+	(set-mark (point))
+	(forward-list)
+	)
 
   (defun highlight-paren-block()
-    (interactive)
-    (goto-char (nth 1 (syntax-ppss)))
-    (set-mark (point))
-    (forward-list)
-    )
+	(interactive)
+	(goto-char (nth 1 (syntax-ppss)))
+	(set-mark (point))
+	(forward-list)
+	)
 
   (defun expand-selection()
-    (interactive)
-    (if (use-region-p)
-        (if (nth 3 (syntax-ppss))  
-            (select-string)
-          (when (> (car (syntax-ppss)) 0)
-            (highlight-paren-block)))
-      (cond
-       ((looking-at "\\s(")
-        (looking-at-forward-paren))
-       ((looking-at "\\s)")
-        (looking-at-backward-paren))
-       ((or
-         (looking-at "\\s_\\|\\sw")
-         (looking-back "\\s_\\|\\sw" (line-beginning-position)))
-        (select-symbol))
-       ((nth 3 (syntax-ppss))
-        (select-string))
-       ((> (car (syntax-ppss)) 0)
-        (highlight-paren-block)))))
+	(interactive)
+	(if (use-region-p)
+		(if (nth 3 (syntax-ppss))  
+			(select-string)
+		  (when (> (car (syntax-ppss)) 0)
+			(highlight-paren-block)))
+	  (cond
+	   ((looking-at "\\s(")
+		(looking-at-forward-paren))
+	   ((looking-at "\\s)")
+		(looking-at-backward-paren))
+	   ((or
+		 (looking-at "\\s_\\|\\sw")
+		 (looking-back "\\s_\\|\\sw" (line-beginning-position)))
+		(select-symbol))
+	   ((nth 3 (syntax-ppss))
+		(select-string))
+	   ((> (car (syntax-ppss)) 0)
+		(highlight-paren-block)))))
 
 
   ;; If inside quotes (nth 3 (syntax-ppss))
@@ -562,24 +568,29 @@ Get all the lines of a minibuffer in a list
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
 
 
-      ;; try to get rid of the buffer end thing
-      (defun pranshu-line-search()
-        (interactive)
-        "search lines for text"
-        (let* ((thing nil)
-               (total-lines (count-lines (point-min) (point-max)))
-               (buffer-end (- (count-lines (point-min) (point-max)) (line-number-at-pos) -1))
-               (buffer-begining (- buffer-end total-lines))
-               (total-lines (- total-lines 2)))
-          (dotimes (number total-lines ) 
-            (setq thing (cons (cons (replace-regexp-in-string "^ +" "" (buffer-substring (line-beginning-position buffer-begining) (line-end-position buffer-begining))) number) thing))
-            (setq buffer-begining (+ 1 buffer-begining))
-            )
-          (goto-line (cdr (assoc (completing-read "Line: " thing nil t) thing))))
-
-        nil
-
+  ;; try to get rid of the buffer end thing
+  (defun pranshu-line-search()
+    (interactive)
+    "search lines for text"
+    (let* ((thing nil)
+           (total-lines (count-lines (point-min) (point-max)))
+           (buffer-end (- (count-lines (point-min) (point-max)) (line-number-at-pos) -1))
+           (buffer-begining (- buffer-end total-lines))
+           (total-lines (- total-lines 2)))
+      (dotimes (number total-lines ) 
+        (setq thing (cons
+                             (cons
+                              (concat (propertize (number-to-string number) 'face 'font-lock-string-face)
+                                      "  "
+                              (replace-regexp-in-string "^ +" ""
+                                                        (buffer-substring (line-beginning-position buffer-begining)
+                                                                          (line-end-position buffer-begining))))
+                              number)
+                             thing))
+        (setq buffer-begining (+ 1 buffer-begining))
         )
+      (goto-line (cdr (assoc (completing-read "Line: " thing nil t) thing))))
+    )
 
 
 
@@ -648,7 +659,6 @@ I prefer tabs, but emacs uses a mix of tabs as spaces which is a worse then spac
   (setq-default tab-always-indent t) ; got hippie expand for completion
   (setq-default tab-first-completion 'word-or-paren-or-punct)
   (setq-default tab-width 4)
-  (setq-default indent-tabs-mode nil)
 
 #+end_src
 
@@ -692,7 +702,6 @@ I prefer tabs, but emacs uses a mix of tabs as spaces which is a worse then spac
 
   (setq modus-themes-intense-mouseovers nil)
   ;;   (setq  modus-themes-mode-line '())
-  (setq  modus-themes-mode-line '(borderless)) 
   (setq  modus-themes-subtle-line-numbers t)
   (setq  modus-themes-links '(neutral-underline))
   (setq  modus-themes-region '(bg-only no-extend))
@@ -731,64 +740,281 @@ complication is not worth the extra feauteres C-c q to compile current defun
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
 
 
-  (setq inferior-lisp-prompt "^\\(->\\|<[0-9]*>:\\) *")
+	(setq inferior-lisp-prompt "^\\(->\\|<[0-9]*>:\\) *")
 
 
 
-  (defun pranshu-lisp-eval-defun-and-go()
-    (interactive)
-    (if (region-active-p)
-        (lisp-eval-region-and-go)
-      (lisp-eval-defun-and-go)))
+	(defun pranshu-lisp-eval-defun-and-go()
+	  (interactive)
+	  (if (region-active-p)
+		  (lisp-eval-region-and-go)
+		(lisp-eval-defun-and-go)))
 
-  (pranshu-define-key
-   (define-prefix-command 'pranshu-inf-lisp-mode-map)
-   '(("a" . pranshu-lisp-eval-defun-and-go)
-     ("j" . lisp-load-file)
-     ("k" . lisp-compile-defun-and-go)
-     ("l" . lisp-compile-file)
-   ))
 
-  (add-hook 'lisp-mode-hook #'(lambda()
-                          (pranshu-define-key
-                           pranshu-edit-mode-map
-                           '(("5" . pranshu-inf-lisp-mode-map)
-                           ))))
+
+	(add-hook 'lisp-mode-hook #'(lambda()
+								(set (make-local-variable 'pranshu-edit-mode-map)
+									 pranshu-lisp-mode-map)
+								(set (make-local-variable 'leader-key-map)
+									 pranshu-lisp-food-map)
+								  ))
+
+
+	(pranshu-define-key
+	 (define-prefix-command 'lisp-modep)
+	 '(("a" . pranshu-lisp-eval-defun-and-go)
+	   ("s" . lisp-load-file)
+	   ("d" . lisp-compile-defun-and-go)
+	   ("f" . lisp-compile-file)
+	   ("g" . comint-clear-buffer)
+	   ("h" . run-lisp)
+	   ))
+
+
+	(defun testfuntion()
+	  (interactive)
+	  (set-transient-map (intern (concat (prin1-to-string major-mode)
+								 "p"))))
+
+	(defvar pranshu-lisp-mode-map pranshu-edit-mode-map)
+	(defvar pranshu-lisp-food-map leader-key-map)
+
+
+
+
+
 
 
 
 #+end_src
 
+**** Haskell mode
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
+  ;;k
+
+
+  (defcustom  haskell-operator-face
+	'( "\\" "not" "->" "<-" "=>"
+	   "()" "==" "/=" ">=" "<=" "!!""&&" "||" "sqrt" "undefined" "pi" "~>"
+	   "-<" "::" "." )
+	"Identifiers treated as reserved keywords in
+	  Haskell." :type '(repeat string))
+
+
+  (defcustom haskell-font-lock-keywords
+	'("case" "class" "data" "default" "deriving" "do"
+	  "else" "if" "import" "in" "infix" "infixl"
+	  "infixr" "instance" "let" "module" "mdo" "newtype" "of"
+	  "rec" "pattern" "proc" "signature" "then" "type" "where" "_"
+	  "anyclass" "stock" "via")
+	"Identifiers treated as reserved keywords in Haskell."
+	:type '(repeat string))
+
+  (defvar pranshu-haskall-keyword
+	`(
+	  ("^#\\(?:[^\\\n]\\|\\\\\\(?:.\\|\n\\|\\'\\)\\)*\\(?:\n\\|\\'\\)" 0 'font-lock-preprocessor-face t)
+	  ("^[\t ]*\\(\\_<[a-z][^ \t]*\\).*::.*[;\n]" . (1 font-lock-function-name-face)) ;; make the argument coloured
+	  ("--.*$" . 'font-lock-comment-face)
+	  ("^[\t ]*\\(\\_<[a-z][^ \t]*\\).*=.*[;\n]" . (1 'font-lock-function-name-face))
+	  (,(regexp-opt haskell-operator-face t) . 'font-lock-variable-name-face)
+	  (,(regexp-opt haskell-font-lock-keywords 'words)  . 'font-lock-keyword-face)
+	  ("\\<\\(type\\|data\\)[ \t]+\\(family\\>\\)"
+	   (1 'font-lock-keyword-face nil lax)
+	   (2 'font-lock-keyword-face nil lax))
+
+	  ))
+
+
+
+  ;; add abbrevs
+
+  (define-derived-mode pranshu-haskell-mode prog-mode "Haskell"
+	:global nil
+	(setq-local font-lock-keywords-case-fold-search t)
+	(setq-local font-lock-defaults '(pranshu-haskall-keyword))
+	(setq-local whitespace-line-column 70)
+	(make-local-variable 'tab-stop-list)
+	(setq-local tab-stop-list (number-sequence 2 80 2))
+	(setq-local comment-start "--")
+	(setq imenu-generic-expression '((nil
+									  "^[\t ]*\\(\\_<[a-z][^ \t]*\\).*=.*[;\n]" 1))))
+
+
+
+
+
+  (add-to-list 'auto-mode-alist '("\\.hs\\'" . pranshu-haskell-mode))
+
+
+  (require 'comint)
+
+  (defun haskell-compile-region-and-go (start end)
+	"Compile the current region in the inferior Lisp, and switch to its buffer."
+	(interactive "r")
+	(comint-send-region (haskellsession) start end)
+	(comint-send-string (haskellsession) "\n"))
+
+  (defun run-haskell()
+	(interactive)
+	(if (not (comint-check-proc "*haskell*"))
+		(set-buffer (apply (function make-comint)
+						   "haskell" ghc-location nil `(,buffer-file-name)))
+	  (pranshu-haskell-mode)
+	  )
+	;; (setq inferior-lisp-buffer "*inferior-lisp*")
+	(pop-to-buffer-same-window "*haskell*"))
+
+  (defun haskellsession ()
+	(get-buffer-process "*haskell*")
+	)
+
+
+
+
+  (pranshu-define-key
+   (define-prefix-command 'pranshu-haskell-modep)
+   '(("a" . haskell-compile-region-and-go)
+	 ("s" . comint-clear-buffer)
+	 ("d" . run-haskell)
+	 ))
+
+
+#+end_src
 
 *** latex
 No other decent alternative except plain text
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
+		;; 	(defun reload-pdf ()
+		;; 	  (interactive
+		;; 	   (let*((pdf-file (concat (substring buffer-file-name 0 -4) ".pdf"))
+		;; 			 (cmd (format "pdflatex %s" buffer-file-name)))
+		;; 		 (split-window-vertically)
+		;; 		 (shell-command cmd)
+		;; 		 (delete-other-windows)
+		;; 		 (split-window-horizontally)
+		;; 		 (other-window 1)
+		;; 		 (find-file pdf-file)
+		;; 		 ;; (setq q-path (buffer-file-name))
+		;; 		 )))
 
-    (defun reload-pdf ()
-      (interactive
-      (let*((pdf-file (concat (substring buffer-file-name 0 -4) ".pdf"))
-            (cmd (format "pdflatex %s" buffer-file-name)))
+		 (setq doc-view-continuous t)
 
-        (split-window-vertically)
-        (shell-command cmd)
-        (delete-other-windows)
-        (split-window-horizontally)
-        (other-window 1)
-        (find-file pdf-file)
-        ;; (setq q-path (buffer-file-name))
-        )))
+  (add-hook 'latex-mode-hook 'abbrev-mode)
 
+		(defun doc-view-clear-or-not ()
+		  (when (< max-doc-view-cache  (length (directory-files doc-view-cache-directory)))
+			(doc-view-clear-cache)
+	  ) 
+		  )
 
-      (add-hook 'latex-mode-hook #'(lambda()
-                            (pranshu-define-key
-                             pranshu-edit-mode-map
-                             '(("5" . reload-pdf)
-                             ))
-                            (setq abbrev-mode t)))
+	  (add-hook 'doc-view-mode-hook  'doc-view-clear-or-not)
+	(require 'org-src)
 
+  (setq org-highlight-latex-and-related '(native script entities))
+  (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
 
+#+end_src
 
+#+begin_src emacs-lisp :tangle ~/.emacs.d/etc/abbrev.el
+  ;;-*-coding: utf-8;-*-
+  (define-abbrev-table 'bibtex-mode-abbrev-table
+	'(
+	  ("bibins" "@article{patashnik-bibtexing,
+		   author={wee},
+		   journal={},
+		   title={},
+		   year={},
+		   month={},
+		   volume={},
+		   number={},
+		   pages={}}" nil :count 0)
+	  ))
+  (define-abbrev-table 'org-mode-abbrev-table
+	'(
+	  ("orgtex" "#+TITLE: TITLE
+	,#+AUTHOR: Pranshu S
+	,#+LaTeX_CLASS: article
+	,#+LaTeX_CLASS_OPTIONS: [letterpaper]
+	,#+OPTIONS: toc:t" nil :count 0)
+	  ("ltxh" "#+BEGIN_EXPORT latex
+
+	  ,#+END_EXPORT" nil :count 0)
+	  ("bgs" "#+begin_src lanuage
+
+	,#+end_src" nil :count 0)
+	  ("insertbib" "#+print_bibliography:" nil :count 0)
+	  ))
+
+  (define-abbrev-table 'latex-mode-abbrev-table
+	'(
+	  ("bqq" "\\begin{equation}" nil :count 2)
+	  ("eqq" "\\end{equation}" nil :count 2)
+	  ("pn" "\\paragraph" ppn :count 0)
+	  ("ppn" "\\subparagraph" ppn :count 0)
+	  ("sn" "\\section{" nil :count 1)
+	  ("ssn" "\\subsection{" nil :count 1)
+	  ("sssn" "\\subsubsection{" nil :count 1)
+	  ("artl" "\\mapsto" nil 0)
+	  ("balg" "\\begin{Algorithm} " nil 0)
+	  ("bcase" "\\begin{Case} " nil 0)
+	  ("bclm" "\\begin{Claim} " nil 0)
+	  ("bcm" "\\begin{comment}" nil 0)
+	  ("bcmnt" "\\begin{comment}" nil 0)
+	  ("bcnd" "\\begin{Condition} " nil 0)
+	  ("bcnj" "\\begin{Conjecture} " nil 0)
+	  ("bcom" "\\begin{comment}" nil 1)
+	  ("bcor" "\\begin{Corollary} " nil 0)
+	  ("bcrit" "\\begin{Criterion} " nil 0)
+	  ("bctr" "\\begin{center}" nil 0)
+	  ("bdfn" "\\begin{Definition} " nil 0)
+	  ("bdef" "\\begin{Definition} " nil 0)
+	  ("bds" "\\begin{description}" nil 0)
+	  ("ben" "\\begin{enumerate}" nil 0)
+	  ("beq" "\\begin{equation}\\label{" nil 0)
+	  ("bfig" "\\begin{figure}" nil 0)
+	  ("bints" "\\bigcap" nil 0)
+	  ("bitm" "\\begin{itemize}" nil 0)
+	  ("blem" "\\begin{Lemma} " nil 0)
+	  ("bmpg" "\\begin{minipage}{\\textwidth}" nil 0)
+	  ("bnota" "\\notaestesa{GDV}{} " nil 0)
+	  ("bnote" "\\begin{Note} " nil 0)
+	  ("bpb" "\\begin{Problem} " nil 0)
+	  ("bprf" "\\begin{proof} " nil 1)
+	  ("bpro" "\\begin{proof} " nil 0)
+	  ("bprob" "\\begin{Problem} " nil 0)
+	  ("bprop" "\\begin{Proposition} " nil 0)
+	  ("bqst" "\\begin{Question} " nil 0)
+	  ("brmk" "\\begin{Remark} " nil 0)
+	  ("bthm" "\\begin{Theorem} " nil 0)
+	  ("bthmt" "\\begin{Theorem}[Gauss' Theorem] " nil 0)
+	  ("bvrb" "\\begin{verbatim}" nil 0)
+	  ("eqvt" "\\Leftrightarrow" nil 0)
+	  ("f12" "\\frac{1}{2}" nil 0)
+	  ("f13" "\\frac{1}{3}" nil 0)
+	  ("f14" "\\frac{1}{4}" nil 0)
+	  ("ftn" "\\footnote{}" nil 0)
+	  ("imp" "\\Rightarrow" nil 0)
+	  ("impb" "\\Leftarrow" nil 0)
+	  ("lel" "\\left\\langle" nil 0)
+	  ("lle" "\\langle" nil 0)
+	  ("lora" "\\longrightarrow" nil 0)
+	  ("lra" "\\leftrightarrow" nil 0)
+	  ("ngdv" "\\notaestesa{GDV}{" nil 0)
+	  ("ribr" "\\right\\}" nil 0)
+	  ("rir" "\\right\\rangle" nil 0)
+	  ("sct" "\\section{" nil 0)
+	  ("sns" "\\section*{" nil 0)
+	  ("sq" "^2" nil 0)
+	  ("ssn" "\\subsection{" nil 0)
+	  ("ssns" "\\subsection*{" nil 0)
+	  ("sube" "\\subseteq" nil 0)
+	  ("subs" "\\subset" nil 0)
+	  ("supe" "\\supseteq" nil 0)
+	  ("sups" "\\supset" nil 0)
+	  ("vbar" "\\mid" nil 0)
+	  ))
 #+end_src
 
 
@@ -812,8 +1038,10 @@ The emacs file manager. I use ls-lisp instead of the systems ls for consitancy a
 
 
   (defun dired-mode-setup ()
-    "hook for dired mode"
-    (dired-hide-details-mode 1))
+	"hook for dired mode"
+	
+	(dired-hide-details-mode 1))
+
   (add-hook 'dired-mode-hook 'dired-mode-setup) ; details are distracting
 
 #+end_src
@@ -943,35 +1171,41 @@ Used to use Ido then vertico then ido again and then vertico and now fido and ic
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
 
-  (require 'gnus)
-  
-  
-  (setq gnus-use-trees t) 
-
-  (defun tog-message-mode()
-    (interactive)
-    (if (eq major-mode 'org-mode)
-        (message-mode)
-      (org-mode)))
-
-  
- ; (global-set-key (kbd "M-g w") 'eww)
-  ;;M-enter to open in a new buffer
-
-  (add-hook 'message-mode-hook #'(lambda ()
-                                   (flyspell-mode t)))
-  (setq gnus-select-method '(nntp "news.gwene.org"))
-  (add-to-list 'gnus-secondary-select-methods
-               `(nnml ""
-                      (nnml-directory ,gnusmailpath)
-                      (nnml-active-file ,(concat gnusmailpath "/active") )))
+		   (require 'gnus)
 
 
-  (setq gnus-use-article-prefetch 15)
+		  (pranshu-define-key
+		   (define-prefix-command 'message-modep)
+		   '(("a" . message-send-and-exit)
+			 ("s" . message-kill-buffer)
+			 ("d" . mml-attach-file)))
 
-  (setq gnus-asynchronous t)
+		   (setq gnus-use-trees t) 
 
-  (setq gnus-summary-thread-gathering-function 'gnus-gather-threads-by-subject)
+		   (defun tog-message-mode()
+			 (interactive)
+			 (if (eq major-mode 'org-mode)
+				 (message-mode)
+			   (org-mode)))
+
+
+		  ; (global-set-key (kbd "M-g w") 'eww)
+		   ;;M-enter to open in a new buffer
+
+		   (add-hook 'message-mode-hook #'(lambda ()
+											(flyspell-mode t)))
+		   (setq gnus-select-method '(nntp "news.gwene.org"))
+		   (add-to-list 'gnus-secondary-select-methods
+						`(nnml ""
+							   (nnml-directory ,gnusmailpath)
+							   (nnml-active-file ,(concat gnusmailpath "/active") )))
+
+
+		   (setq gnus-use-article-prefetch 15)
+
+		   (setq gnus-asynchronous t)
+
+		   (setq gnus-summary-thread-gathering-function 'gnus-gather-threads-by-subject)
 
 
 #+end_src
@@ -987,12 +1221,10 @@ Just for peace of mind
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
 
   (require 'midnight)
-  (global-set-key (kbd "C-x c") 'clean-buffer-list)
   (setq clean-buffer-list-delay-general 1)
   (setq midnight-period 7200)
   (midnight-delay-set 'midnight-delay 1)
   (setq midnight-mode t)
-  (define-key global-map (kbd "C-x C-b") 'ibuffer)
 
 
 #+end_src
@@ -1107,142 +1339,157 @@ I find this sometimes helpful
 While org mode is great and all I feel like it adds complexity
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  ;;; (require 'org)
+  (require 'org)
 
-  ;; (setq org-src-fontify-natively t)
+  (add-hook 'org-mode-hook 'abbrev-mode)
 
-  ;; (setq org-directory "~/org-mode/")
+  (setq org-directory "~/emacs-var/org/")
 
-  ;; (define-key org-mode-map (kbd "C-c [") nil)
+  (define-key org-mode-map (kbd "C-c [") nil)
 
-  ;; (define-key org-mode-map (kbd "C-c ]") nil)
+  (define-key org-mode-map (kbd "C-c ]") nil)
 
-  ;; (setq org-todo-keywords '((sequence "todo(t)" "finish(f)" "progress(p)" "|" "done(d)" )
-  ;;                           (sequence "meeting(m)" "rendezvous(r)" "appointment(a)" "next(n)" "|" "cancelled(c)" )
-  ;;                           (sequence "idea(i)" "review(q)" "|"  "waiting(w)" "inactive(o)")))
-
-  ;; ;; custom agenda veiw
-
-
-  ;; (defun set-org-defiles ()
-  ;;   (let ((project-files
-  ;;          (mapcar
-  ;;           (lambda (f) (concat
-  ;;                        org-directory f))
-  ;;           (seq-filter
-  ;;            (lambda (f) (not (member f '("." ".."))))
-
-  ;;            (directory-files org-directory))
-  ;;           )))
-  ;;     (setq org-agenda-files
-  ;;           `( ,@(mapcar
-  ;;                 (lambda (x)  (concat org-directory  x))
-  ;;                 (seq-filter
-  ;;                  (lambda (f) (and (not (member f '("." "..")))
-  ;;                                   (not (file-directory-p f))))
-  ;;                  (directory-files org-directory)))
-  ;;              ,@(mapcar
-  ;;                 (lambda (x)  (concat org-directory "capture/" x))
-  ;;                 (seq-filter
-  ;;                  (lambda (f) (not (member f '("." ".."))))
-  ;;                  (directory-files (concat org-directory "capture/")))
-  ;;                 )))
-  ;;     (setq org-refile-targets
-  ;;           `(,@(mapcar
-  ;;                (lambda (f) `(,f . (:maxlevel . 4)))
-  ;;                project-files)
-  ;;             ,@(mapcar
-  ;;                (lambda (f) `(,f . (:tag . "refile")))
-  ;;                project-files)))))
-
-  ;; (set-org-defiles)
-
-  ;; (setq org-agenda-files `(,@org-agenda-files
-  ;;                          ,@(mapcar
-  ;;                             (lambda (x)  (concat org-directory "capture/" x))
-  ;;                             (seq-filter
-  ;;                              (lambda (f) (not (member f '("." ".."))))
-  ;;                              (directory-files (concat org-directory "capture/")))
-  ;;                             )))
-
-  ;; ;; https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html
-  ;; (defun air-org-skip-subtree-if-habit ()
-  ;;   "skip an agenda entry if it has a style property equal to \"habit\"."
-  ;;   (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-  ;;     (if (string= (org-entry-get nil "style") "habit")
-  ;;         subtree-end
-  ;;       nil)))
-
-  ;; (defun air-org-skip-subtree-if-priority (priority)
-  ;;   "skip an agenda subtree if it has a priority of priority.
-
-  ;;     priority may be one of the characters ?a, ?b, or ?c."
-  ;;   (let ((subtree-end (save-excursion (org-end-of-subtree t)))
-  ;;         (pri-value (* 1000 (- org-lowest-priority priority)))
-  ;;         (pri-current (org-get-priority (thing-at-point 'line t))))
-  ;;     (if (= pri-value pri-current)
-  ;;         subtree-end
-  ;;       nil)))
-
-  ;; (setq org-agenda-custom-commands
-  ;;       '(("d" "agenda and all todos"
-  ;;          ((tags "priority=\"a\""
-  ;;                 ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-  ;;                  (org-agenda-overriding-header "high-priority unfinished tasks:")))
-  ;;           (agenda "" ((org-agenda-ndays 1)))
-  ;;           (alltodo ""
-  ;;                    ((org-agenda-skip-function '(or (air-org-skip-subtree-if-habit)
-  ;;                                                    (air-org-skip-subtree-if-priority ?a)
-  ;;                                                    (org-agenda-skip-if nil '(scheduled deadline))))
-  ;;                     (org-agenda-overriding-header "all normal priority tasks:"))))
-  ;;          )))
-
-  ;; (setq org-agenda-ndays 1)
-  ;; (setq org-agenda-start-on-weekday 1)
-  ;; (setq org-agenda-skip-scheduled-if-done nil)
+  ;;define key
+  (pranshu-define-key
+   leader-key-map
+   '(
+	 ("l" . org-capture)
+	 ("z". org-agenda-select-file)
+	 ("h" . org-agenda)))
 
 
-  ;; (setq org-capture-templates
-  ;;       '(("r" "rendezvous" entry
-  ;;          (file "capture/rendezvous.org")
-  ;;          "* rendezvous %^{form: |meeting|appointment|casual|other} with %^{with}  \n SCHEDULED: %^t\n\n %^{description}"
-  ;;          :empty-lines 1
-  ;;          :immediate-finish 1)
-  ;;         ("e" "email note" entry
-  ;;          (file+headline "capture/tasks.org" "tasks to be reviewed")
-  ;;          "* maybe %:subject :mail:\n :end:\n\n %a\n%i%?"
-  ;;          :empty-lines 1)
-  ;;         ("i" "idea" entry
-  ;;          (file "ideas.org")
-  ;;          "* %^{status |inactive|todo|review} %^{idea}\n %?"
-  ;;          :empty-lines 1)
-  ;;         ("t" "task" entry
-  ;;          (file "tasks.org")
-  ;;          "* todo %^{priority| |[#a]|[#b]|[#c]} %^{task}\n SCHEDULED: %^t \n %?"
-  ;;          :empty-lines 1)
-  ;;         ("n" "task without time" entry
-  ;;          (file "tasks.org")
-  ;;          "* todo %^{priority| |[#a]|[#b]|[#c]} %^{task}\n %?"
-  ;;          :empty-lines 1)
-  ;;         ("q" "quicktask" entry
-  ;;          (file "tasks.org")
-  ;;          "* todo %^{priority| |[#a]|[#b]|[#c]} %^{task}\n SCHEDULED: %^t \n\n %^{descrition}"
-  ;;          :empty-lines 1
-  ;;          :immediate-finish 1)))
 
 
-  ;; (setq org-capture-templates-contexts
-  ;;       '(("e" ((in-mode . "gnus-article-mode")
-  ;;               (in-mode . "gnus-summary-mode")
-  ;;               (in-mode . "message-mode")))))
+  (setq org-todo-keywords '((sequence "todo(t)" "finish(f)" "progress(p)" "|" "done(d)" )
+							(sequence "meeting(m)" "rendezvous(r)" "appointment(a)" "next(n)" "|" "cancelled(c)" )
+							(sequence "idea(i)" "review(q)" "|"  "waiting(w)" "inactive(o)")))
+
+  ;; custom agenda veiw
 
 
-  ;; (defun org-agenda-select-file()
-  ;;   (interactive)
-  ;;   (find-file (read-file-name "Pick the org file " "~/org-mode/")))
+  (defun set-org-defiles ()
+	(let ((project-files
+		   (mapcar
+			(lambda (f) (concat
+						 org-directory f))
+			(seq-filter
+			 (lambda (f) (not (member f '("." ".."))))
 
-  ;; ;; (setq org-goto-interface 'outline-path-completion)
-  ;; ;; (setq org-outline-path-complete-in-steps nil)
+			 (directory-files org-directory))
+			)))
+	  (setq org-agenda-files
+			`( ,@(mapcar
+				  (lambda (x)  (concat org-directory  x))
+				  (seq-filter
+				   (lambda (f) (and (not (member f '("." "..")))
+									(not (file-directory-p f))))
+				   (directory-files org-directory)))
+			   ,@(mapcar
+				  (lambda (x)  (concat org-directory "capture/" x))
+				  (seq-filter
+				   (lambda (f) (not (member f '("." ".."))))
+				   (directory-files (concat org-directory "capture/")))
+				  )))
+	  (setq org-refile-targets
+			`(,@(mapcar
+				 (lambda (f) `(,f . (:maxlevel . 4)))
+				 project-files)
+			  ,@(mapcar
+				 (lambda (f) `(,f . (:tag . "refile")))
+				 project-files)))))
+
+  (set-org-defiles)
+
+  (setq org-agenda-files `(,@org-agenda-files
+						   ,@(mapcar
+							  (lambda (x)  (concat org-directory "capture/" x))
+							  (seq-filter
+							   (lambda (f) (not (member f '("." ".."))))
+							   (directory-files (concat org-directory "capture/")))
+							  )))
+
+  ;; https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html
+  (defun air-org-skip-subtree-if-habit ()
+	"skip an agenda entry if it has a style property equal to \"habit\"."
+	(let ((subtree-end (save-excursion (org-end-of-subtree t))))
+	  (if (string= (org-entry-get nil "style") "habit")
+		  subtree-end
+		nil)))
+
+  (defun air-org-skip-subtree-if-priority (priority)
+	"skip an agenda subtree if it has a priority of priority.
+
+		 priority may be one of the characters ?a, ?b, or ?c."
+	(let ((subtree-end (save-excursion (org-end-of-subtree t)))
+		  (pri-value (* 1000 (- org-lowest-priority priority)))
+		  (pri-current (org-get-priority (thing-at-point 'line t))))
+	  (if (= pri-value pri-current)
+		  subtree-end
+		nil)))
+
+  (setq org-agenda-custom-commands
+		'(("d" "agenda and all todos"
+		   ((tags "priority=\"a\""
+				  ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+				   (org-agenda-overriding-header "high-priority unfinished tasks:")))
+			(agenda "" ((org-agenda-ndays 1)))
+			(alltodo ""
+					 ((org-agenda-skip-function '(or (air-org-skip-subtree-if-habit)
+													 (air-org-skip-subtree-if-priority ?a)
+													 (org-agenda-skip-if nil '(scheduled deadline))))
+					  (org-agenda-overriding-header "all normal priority tasks:"))))
+		   )))
+
+  (setq org-agenda-ndays 1)
+  (setq org-agenda-start-on-weekday 1)
+  (setq org-agenda-skip-scheduled-if-done nil)
+
+
+  (setq org-capture-templates
+		'(("r" "rendezvous" entry
+		   (file "capture/rendezvous.org")
+		   "* rendezvous %^{form: |meeting|appointment|casual|other} with %^{with}  \n SCHEDULED: %^t\n\n %^{description}"
+		   :empty-lines 1
+		   :immediate-finish 1)
+		  ("e" "email note" entry
+		   (file+headline "capture/tasks.org" "tasks to be reviewed")
+		   "* maybe %:subject :mail:\n :end:\n\n %a\n%i%^{description}"
+		   :empty-lines 1
+		   :immediate-finish 1)
+		  ("i" "idea" entry
+		   (file "ideas.org")
+		   "* %^{status |inactive|todo|review} %^{idea}\n %^{description:}"
+		   :empty-lines 1
+		   :immediate-finish 1)
+		  ("t" "task" entry
+		   (file "tasks.org")
+		   "* todo %^{priority| |[#a]|[#b]|[#c]} %^{task}\n SCHEDULED: %^t \n %^{description}"
+		   :empty-lines 1
+		   :immediate-finish 1)
+		  ("n" "task without time" entry
+		   (file "tasks.org")
+		   "* todo %^{priority| |[#a]|[#b]|[#c]} %^{task}\n %^{description}"
+		   :empty-lines 1
+		   :immediate-finish 1)
+		  ("q" "quicktask" entry
+		   (file "tasks.org")
+		   "* todo %^{priority| |[#a]|[#b]|[#c]} %^{task}\n SCHEDULED: %^t \n\n"
+		   :empty-lines 1
+		   :immediate-finish 1)))
+
+
+  (setq org-capture-templates-contexts
+		'(("e" ((in-mode . "gnus-article-mode")
+				(in-mode . "gnus-summary-mode")
+				(in-mode . "message-mode")))))
+
+
+  (defun org-agenda-select-file()
+	(interactive)
+	(find-file (read-file-name "Pick the org file " org-directory)))
+
+  (setq org-goto-interface 'outline-path-completion)
+  (setq org-outline-path-complete-in-steps nil)
 
 
 #+end_src
@@ -1252,9 +1499,88 @@ While org mode is great and all I feel like it adds complexity
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
 
   (setq org-src-fontify-natively t)
-  
+  (setq org-hide-leading-stars 't)
+
+  (pranshu-define-key
+   (define-prefix-command 'org-modep)
+   '(("a" . org-sparse-tree)
+	 ("s" . org-goto)
+	 ("d" . org-cite-insert)
+	 ("f" . org-export-dispatch)
+	 )
+   )
+
+
+
+
+
 #+end_src
 
+*** insert bib
+#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
+	(defun bib-ins()
+	(interactive)
+	  (let* ((buffer-names (mapcar
+					   (lambda(l) (list (buffer-name l) l))
+					   (seq-filter
+						(lambda(n) n)
+						(mapcar
+						 (lambda (i)
+						   (let ((x (prin1-to-string i))))
+						   (when (eq (buffer-local-value 'major-mode i) 'bibtex-mode)
+							 i
+							 )
+						   )
+						 (buffer-list)
+						 ))))
+		 (the-chosen-one (car (cdr (assoc (completing-read "File:"
+							(mapcar
+							 (lambda(n) (car n))
+							 buffer-names))
+									 buffer-names)))))
+	(let ((new-buffer (generate-new-buffer (concat "*" (buffer-name the-chosen-one) "*"))))
+	  (split-window-below)
+	  (switch-to-buffer new-buffer)
+	  (bibtex-mode)
+	  (insert
+  "@article{title,
+		   author={},
+		   journal={},
+		   title={},
+		   year={},
+		   month={},
+		   volume={},
+		   number={},
+		   pages={}}
+  ")
+	  (set (make-local-variable 'dest) the-chosen-one)
+	   )
+	))
+
+
+
+  (defun insert-bib-text()
+	(interactive)
+	(let ((x (buffer-substring (point-min) (point-max))))
+	(with-current-buffer dest
+	  (insert x)
+	  ))
+	(delete-window)
+	)
+
+  (pranshu-define-key
+   (define-prefix-command 'bibtex-modep)
+   '(("a" . insert-bib-text)
+	 ("s" . bibtex-clean-entry))
+   )
+
+  (setq bibtex-maintain-sorted-entries t)
+  (add-hook 'bibtex-mode-hook 'abbrev-mode)
+
+
+
+
+#+end_src
 
 ** Pranshu-edit-mode
 
@@ -1262,400 +1588,398 @@ the crown jwel
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
 
-           ;;
-           ;; work in progress
+			   ;;
+			   ;; work in progress
 
-           (global-unset-key (kbd "C-x a"))
-
-
-           ;;xahlee
-           (defvar brackets-char '("“”" "()" "[]" "{}" "<>" "＜＞" "（）" "［］" "｛｝" "⦅⦆" "〚〛" "‹›" "«»" "「」" "〈〉" "《》" "【】" "〔〕"  "『』""❛❜" "❝❞" "⁽⁾" "₍₎"  "⁅⁆" "｟｠")
-             "A list of strings, each element is a string of 2 chars, the left bracket and a matching right bracket. Used by `xah-select-text-in-quote' and others.")
-
-           (defconst left-brackets
-             (mapcar (lambda (x) (substring x 0 1)) brackets-char))
+			   (global-unset-key (kbd "C-x a"))
 
 
-           (defconst right-brackets
-             (mapcar (lambda (x) (substring x 1 2)) brackets-char))
+			   ;;xahlee
+			   (defvar brackets-char '("“”" "()" "[]" "{}" "<>" "＜＞" "（）" "［］" "｛｝" "⦅⦆" "〚〛" "‹›" "«»" "「」" "〈〉" "《》" "【】" "〔〕"  "『』""❛❜" "❝❞" "⁽⁾" "₍₎"  "⁅⁆" "｟｠")
+				 "A list of strings, each element is a string of 2 chars, the left bracket and a matching right bracket. Used by `xah-select-text-in-quote' and others.")
+
+			   (defconst left-brackets
+				 (mapcar (lambda (x) (substring x 0 1)) brackets-char))
 
 
-           (defun matching-bracket ()
-             (interactive)
-             (if (nth 3 (syntax-ppss))
-                 (backward-up-list 1 'ESCAPE-STRINGS 'NO-SYNTAX-CROSSING)
-               (cond
-                ((eq (char-after) ?\") (forward-sexp))
-                ((eq (char-before) ?\") (backward-sexp ))
-                ((looking-at (regexp-opt left-brackets))
-                 (forward-sexp))
-                ((looking-back (regexp-opt right-brackets) (max (- (point) 1) 1))
-                 (backward-sexp))
-                (t (backward-up-list 1 'ESCAPE-STRINGS 'NO-SYNTAX-CROSSING)))))
+			   (defconst right-brackets
+				 (mapcar (lambda (x) (substring x 1 2)) brackets-char))
 
 
+			   (defun matching-bracket ()
+				 (interactive)
+				 (if (nth 3 (syntax-ppss))
+					 (backward-up-list 1 'ESCAPE-STRINGS 'NO-SYNTAX-CROSSING)
+				   (cond
+					((eq (char-after) ?\") (forward-sexp))
+					((eq (char-before) ?\") (backward-sexp ))
+					((looking-at (regexp-opt left-brackets))
+					 (forward-sexp))
+					((looking-back (regexp-opt right-brackets) (max (- (point) 1) 1))
+					 (backward-sexp))
+					(t (backward-up-list 1 'ESCAPE-STRINGS 'NO-SYNTAX-CROSSING)))))
 
 
 
 
-           (defun copy-line-or-region ()
-             (interactive)
-             (let ((inhibit-field-text-motion nil))
-               (if current-prefix-arg
-                   (progn
-                     (copy-region-as-kill (point-min) (point-max)))
-                 (if (region-active-p)
-                     (progn
-                       (copy-region-as-kill (region-beginning) (region-end)))
-                   (if (eq last-command this-command)
-                       (if (eobp)
-                           nil
-                         (progn
-                           (kill-append "\n" nil)
-                           (kill-append
-                            (buffer-substring-no-properties (line-beginning-position) (line-end-position))
-                            nil)
-                           (progn
-                             (end-of-line)
-                             (forward-char))))
-                     (if (eobp)
-                         (if (eq (char-before) 10 )
-                             nil
-                           (progn
-                             (copy-region-as-kill (line-beginning-position) (line-end-position))
-                             (end-of-line)))
-                       (progn
-                         (copy-region-as-kill (line-beginning-position) (line-end-position))
-                         (end-of-line)
-                         (forward-char))))))))
-
-           (defun cut-line-or-region()
-             (interactive)
-             (if current-prefix-arg
-                 (progn ; not using kill-region because we don't want to include previous kill
-                   (kill-new (buffer-string))
-                   (delete-region (point-min) (point-max)))
-               (progn (if (region-active-p)
-                          (kill-region (region-beginning) (region-end) t)
-                        (kill-region (line-beginning-position) (line-beginning-position 2))))))
 
 
-           (defun pranshu-buffer-begend()
-             "If at the begining of buffer, go to end and reverse."
-             (interactive)
-             (if (eq (point) (point-max))
-                 (progn
-                   (beginning-of-buffer)
-                   (message "Begining of buffer."))
-               (progn
-                 (end-of-buffer)
-                 (message "Buffer end.")))
-             (pulse-line))
+			   (defun copy-line-or-region ()
+				 (interactive)
+				 (let ((inhibit-field-text-motion nil))
+				   (if current-prefix-arg
+					   (progn
+						 (copy-region-as-kill (point-min) (point-max)))
+					 (if (region-active-p)
+						 (progn
+						   (copy-region-as-kill (region-beginning) (region-end)))
+					   (if (eq last-command this-command)
+						   (if (eobp)
+							   nil
+							 (progn
+							   (kill-append "\n" nil)
+							   (kill-append
+								(buffer-substring-no-properties (line-beginning-position) (line-end-position))
+								nil)
+							   (progn
+								 (end-of-line)
+								 (forward-char))))
+						 (if (eobp)
+							 (if (eq (char-before) 10 )
+								 nil
+							   (progn
+								 (copy-region-as-kill (line-beginning-position) (line-end-position))
+								 (end-of-line)))
+						   (progn
+							 (copy-region-as-kill (line-beginning-position) (line-end-position))
+							 (end-of-line)
+							 (forward-char))))))))
 
-           ;; (glo)
-
-           ;; (mark-paragraph) to mark the current block
-
-
-           (defun backward-left-bracket ()
-             (interactive)
-             (re-search-backward (regexp-opt left-brackets) nil t))
-
-           (defun forward-left-bracket ()
-             (interactive)
-             (re-search-forward (regexp-opt right-brackets) nil t))
-
-           (defun pranshu-negitive-spacing()
-             (interactive)
-             (cycle-spacing -1))
-
-           ;; todo indent and bind control to hippie expand
-
-           (defun open-line-below()
-             (interactive)
-             (end-of-visual-line)
-             (newline))
-
-           (defun pranshu-toggle-mark()
-             (interactive)
-             (if (region-active-p)
-                 (deactivate-mark)
-               (set-mark (point))))
-
-
-           ;; parasite of the evil org keys
+			   (defun cut-line-or-region()
+				 (interactive)
+				 (if current-prefix-arg
+					 (progn ; not using kill-region because we don't want to include previous kill
+					   (kill-new (buffer-string))
+					   (delete-region (point-min) (point-max)))
+				   (progn (if (region-active-p)
+							  (kill-region (region-beginning) (region-end) t)
+							(kill-region (line-beginning-position) (line-beginning-position 2))))))
 
 
-           (pranshu-define-key
-            pranshu-edit-mode-map
-            '(
-              ("SPC" . leader-key-map)
-              ;; repeating command
-              ("0" . end-of-visual-line)
-              ("w" . pop-global-mark)
-              ("1" . delete-other-windows)
-              ("7" . previous-buffer)
-              ("8" . next-buffer)
-              ("u" . backward-word)
-              ("2" . split-window-below)
-              ("4" . ispell-word)
-              ("3" . split-window-right)
-              ("9" . beginning-of-visual-line)
-              ("e" . backward-kill-word)
-              ("r" . delete-word)
-              ("a" . pranshu-toggle-mark)
-              ("b" . open-line-below)
-              ("c" . delete-forward-char)
-              ("f" . pranshu-edit-mode)
-              ("l" . right-char)
-              ("j" . left-char)
-              ("i" . previous-line)
-              ("k" . next-line)
-              ("o" . forward-word)
-              ("v" . backward-kill-word) ;; unset make abbrev key kater
-              (";" . forward-paragraph)
-              ("h" . backward-paragraph)
-              ("\\" . pranshu-buffer-begend)
-              ;;   ("`" . dired-jump) ;; to review
-              ;;   ("z" . isearch)
-              ("'" . recenter-top-bottom)
-              ("d" . delete-map)
-              ("s" . expand-selection)
-              ("/" . matching-bracket)
-              ("q" . mark-paragraph)
-              ;;("Q" . mark-page)
-              ("6" . xah-toggle-letter-case)
-              ("`" . vss-map)
-              ("=" . unexpand-abbrev)
-              ("-" . fill-paragraph)
-              ("[" . delete-pair)
-              ("]" . enlarge-window-horizontally)
-              ("5" . yank-pop)
-              ("z" . pranshu-kill-ring-save)
-              ("p" .  undo)
-              ("n" . other-window)
-              ("m" . isearch-forward)
-              ("t" . copy-line-or-region)
-              ("g". yank)
-              ("v" . delete-backward-char)
-              ("." . forward-left-bracket)
-              ("," . backward-left-bracket)
-              ("x" . imenu)
-              ("y" . open-line)
-              ("b" . comment-line) ;; make a comment line or ispell function because you do not use code and ispell and comments at The same time
+			   (defun pranshu-buffer-begend()
+				 "If at the begining of buffer, go to end and reverse."
+				 (interactive)
+				 (if (eq (point) (point-max))
+					 (progn
+					   (beginning-of-buffer)
+					   (message "Begining of buffer."))
+				   (progn
+					 (end-of-buffer)
+					 (message "Buffer end.")))
+				 (pulse-line))
 
-              ("ESC" . keyboard-escape-quit)))
+			   ;; (glo)
 
-  (defun xah-toggle-letter-case ()
-    "Toggle the letter case of current word or selection.
-  Always cycle in this order: Init Caps, ALL CAPS, all lower.
+			   ;; (mark-paragraph) to mark the current block
 
-  URL `http://xahlee.info/emacs/emacs/modernization_upcase-word.html'
-  Version: 2020-06-26"
-    (interactive)
-    (let ( (deactivate-mark nil) $p1 $p2)
-      (if (region-active-p)
-          (setq $p1 (region-beginning) $p2 (region-end))
-        (save-excursion
-          (skip-chars-backward "[:alpha:]")
-          (setq $p1 (point))
-          (skip-chars-forward "[:alpha:]")
-          (setq $p2 (point))))
-      (when (not (eq last-command this-command))
-        (put this-command 'state 0))
-      (cond
-       ((equal 0 (get this-command 'state))
-        (upcase-initials-region $p1 $p2)
-        (put this-command 'state 1))
-       ((equal 1 (get this-command 'state))
-        (upcase-region $p1 $p2)
-        (put this-command 'state 2))
-       ((equal 2 (get this-command 'state))
-        (downcase-region $p1 $p2)
-        (put this-command 'state 0)))))
 
+			   (defun backward-left-bracket ()
+				 (interactive)
+				 (re-search-backward (regexp-opt left-brackets) nil t))
+
+			   (defun forward-left-bracket ()
+				 (interactive)
+				 (re-search-forward (regexp-opt right-brackets) nil t))
+
+			   (defun pranshu-negitive-spacing()
+				 (interactive)
+				 (cycle-spacing -1))
+
+			   ;; todo indent and bind control to hippie expand
+
+			   (defun open-line-below()
+				 (interactive)
+				 (end-of-visual-line)
+				 (newline))
+
+			   (defun pranshu-toggle-mark()
+				 (interactive)
+				 (if (region-active-p)
+					 (deactivate-mark)
+				   (set-mark (point))))
+
+
+			   ;; parasite of
+
+
+			   (pranshu-define-key
+				pranshu-edit-mode-map
+				'(
+				  ("SPC" . leader-key-map)
+				  ("z" . copy-line-or-region)
+				  ("r" . scroll-up)
+				  ("RET" . scroll-down)
+				  ("<backspace>" . universal-argument)
+				  ;; repeating command
+				  ("0" . end-of-visual-line)
+				  ("w" . open-line)
+				  ("1" . delete-other-windows)
+				  ("7" . previous-buffer)
+				  ("8" . next-buffer)
+				  ("u" . backward-word)
+				  ("2" . split-window-below)
+				  ("4" . ispell-word)
+				  ("3" . split-window-right)
+				  ("9" . beginning-of-visual-line)
+				  ("e" . backward-kill-word)
+				  ("a" . pranshu-toggle-mark)
+				  ("c" . delete-forward-char)
+				  ("f" . pranshu-edit-mode)
+				  ("l" . right-char)
+				  ("j" . left-char)
+				  ("i" . previous-line)
+				  ("k" . next-line)
+				  ("o" . forward-word)
+				  ("v" . backward-kill-word) ;; unset make abbrev key kater
+				  (";" . forward-paragraph)
+				  ("5" . enlarge-window)
+				  ("h" . backward-paragraph)
+				  ("\\" . pranshu-buffer-begend)
+				  ;;   ("`" . dired-jump) ;; to review
+				  ;;   ("z" . isearch)
+				  ("'" . recenter-top-bottom)
+				  ("d" . delete-map)
+				  ("s" . expand-selection)
+				  ("/" . matching-bracket)
+				  ("q" . mark-paragraph)
+				  ;;("Q" . mark-page)
+				  ("6" . xah-toggle-letter-case)
+				  ("`" . vss-map)
+				  ("=" . delete-window)
+				  ("-" . fill-paragraph)
+				  ("[" . delete-pair)
+				  ("]" . enlarge-window-horizontally)
+				  ("p" .  undo)
+				  ("n" . other-window)
+				  ("m" . isearch-forward)
+				  ("t" . testfunction)
+				  ("g". yank)
+				  ("v" . delete-backward-char)
+				  ("." . forward-left-bracket)
+				  ("," . backward-left-bracket)
+				  ("x" . imenu)
+				  ("y" . xah-pop-local-mark-ring)
+				  ("b" . comment-line) ;; make a comment line or ispell function because you do not use code and ispell and comments at The same time
+
+				  ("ESC" . keyboard-escape-quit)))
+
+
+(defun xah-pop-local-mark-ring ()
+  "Move cursor to last mark position of current buffer.
+Call this repeatedly will cycle all positions in `mark-ring'.
+
+URL `http://xahlee.info/emacs/emacs/emacs_jump_to_previous_position.html'
+Version: 2016-04-04"
+  (interactive)
+  (set-mark-command t))
   
+	  (defun xah-toggle-letter-case ()
+		"Toggle the letter case of current word or selection.
+	  Always cycle in this order: Init Caps, ALL CAPS, all lower.
+
+	  URL `http://xahlee.info/emacs/emacs/modernization_upcase-word.html'
+	  Version: 2020-06-26"
+		(interactive)
+		(let ( (deactivate-mark nil) $p1 $p2)
+		  (if (region-active-p)
+			  (setq $p1 (region-beginning) $p2 (region-end))
+			(save-excursion
+			  (skip-chars-backward "[:alpha:]")
+			  (setq $p1 (point))
+			  (skip-chars-forward "[:alpha:]")
+			  (setq $p2 (point))))
+		  (when (not (eq last-command this-command))
+			(put this-command 'state 0))
+		  (cond
+		   ((equal 0 (get this-command 'state))
+			(upcase-initials-region $p1 $p2)
+			(put this-command 'state 1))
+		   ((equal 1 (get this-command 'state))
+			(upcase-region $p1 $p2)
+			(put this-command 'state 2))
+		   ((equal 2 (get this-command 'state))
+			(downcase-region $p1 $p2)
+			(put this-command 'state 0)))))
 
 
 
 
-           (defun pranshu-kill-ring-save()
-             (interactive)
-             (if (region-active-p)
-                 (kill-ring-save (region-beginning) (region-end))
-               (kill-ring-save (line-beginning-position) (line-end-position))))
 
+			   (pranshu-define-key
+				(define-prefix-command 'vss-map)
+				'(("j" . set-fill-column)
+				  ("k" . auto-fill-mode)))
 
-           (pranshu-define-key
-            (define-prefix-command 'vss-map)
-            '(("j" . set-fill-column)
-              ("k" . auto-fill-mode)))
+			   (pranshu-define-key
+				(define-prefix-command 'delete-map)
+				'(("d" . pranshu-kill-whole-line)
+				  (";" . narrow-to-page)
+				  ("o" . widen)
+				  ("j" . kill-paragraph)
+				  ("k" . kill-line)
+				  ("l" . pranshu-negitive-spacing)))
 
-           (pranshu-define-key
-            (define-prefix-command 'delete-map)
-            '(("d" . pranshu-kill-whole-line)
-              ("u" . narrow-to-page)
-              ("i" . narrow-to-region)
-              ("o" . widen)
-              ("j" . kill-paragraph)
-              ("k" . kill-line)
-              ("l" . pranshu-negitive-spacing)))
-
-           ;; make org goto work
+			   ;; make org goto work
 
 
 
-           ;; -------------------------------------------- todo
-           ;; add a keybinding for switching buffers
+			   ;; -------------------------------------------- todo
+			   ;; add a keybinding for switching buffers
 
-           ;; remove all init .org keybinding
+			   ;; remove all init .org keybinding
 
-           (pranshu-define-key
-            (define-prefix-command 'leader-key-map)
-            '((";" . count-words)
-              ("a" . file-nav-map)
-              ("i" . follow-mode)
-              ("f" . switch-to-buffer)
-              ("SPC" . pranshu-rectangle) ;; find a way to move the prefix keys
-              ("e" . save-all-unsaved)
-              ("j" . save-buffer)
-              ("g" . pranshu-line-search)
-              ("d" . occur)
-              ("i" . toggle-line-numbers)
-              ("q" . eww)
-              ("o" . gnus)
-              ("k" . dired-jump)
-              ("s" . bookmark-prefix-map)
-              ("r" . query-replace)
-              ("m" . pranshu-mode-comand)
-              ("u" . writing-functions-map)
-              ("c" . modus-themes-toggle)
-              ("w" . eshell-tog)
-              ("p" . setstuff-prefix-map)
-              ("'" . quicknote)
-              ("b" . compile)
-              ("/" . xah-add-space-after-comma)
-              )
-            )
+			   (pranshu-define-key
+				leader-key-map
+				'((";" . count-words)
+				  ("a" . file-nav-map)
+				  ("i" . follow-mode)
+				  ("f" . switch-to-buffer)
+				  ("SPC" . pranshu-rectangle) ;; find a way to move the prefix keys
+				  ("e" . save-all-unsaved)
+				  ("j" . save-buffer)
+				  ("g" . pranshu-line-search)
+				  ("TAB" . unexpand-abbrev)
+				  ("2" . clean-buffer-list)
+				  ("3" . ibuffer)
+				  ("d" . occur)
+				  ("x" . bib-ins)
+				  ("i" . toggle-line-numbers)
+				  ("q" . eww)
+				  ("o" . gnus)
+				  ("y" . my-insert-color-hex)
+				  ("k" . dired-jump)
+				  ("s" . bookmark-prefix-map)
+				  ("r" . query-replace-regexp)
+				  ("u" . writing-functions-map)
+				  ("c" . modus-themes-toggle)
+				  ("w" . eshell-tog)
+				  ("v" . kill-buffer)
+				  ("p" . setstuff-prefix-map)
+				  ("'" . quicknote)
+				  ("b" . compile)
+				  ("n" . yank-pop)
+				  ("t" . calc)
+				  ("/" . xah-add-space-after-comma)
+				  )
+				)
 
+	 (defun my-insert-color-hex (&optional arg)
+	 "Select a color and insert its 24-bit hexadecimal RGB format.
 
-
-           (defun pranshu-rectangle()
-             (interactive)
-             (if (region-active-p)
-                 (call-interactively 'string-rectangle)
-               (rectangle-mark-mode)))
-
-           (pranshu-define-key
-            (define-prefix-command 'bookmark-prefix-map)
-            '(("j" . bookmark-set)
-              ("k" . bookmark-jump)
-              ("l" . list-bookmarks)
-              (";" . bookmark-rename)))
-
-           (pranshu-define-key
-            (define-prefix-command 'writing-functions-map)
-            '(("a" . toggle-mode-line)
-              ("s" . center-text-toggle)
-              ("d" . center-text-flyspell)
-              ("f" . set-colum-to-default)
-              ("h" . flyspell-mode)))
-
-
-
-           ;; move select page to file editing because it is techniqualy rewriting files
+   With prefix argument \\[universal-argument] insert the 48-bit value."
+	 (interactive "*P")
+	 (let ((buf (current-buffer)))
+	   (list-colors-display
+		nil nil `(lambda (name)
+				   (interactive)
+				   (quit-window)
+				   (with-current-buffer ,buf
+					 (insert (apply #'color-rgb-to-hex
+									(nconc (color-name-to-rgb name)
+										   (unless (consp ',arg)
+											 (list (or ,arg 2)))))))))))
 
 
+			   (defun pranshu-rectangle()
+				 (interactive)
+				 (if (region-active-p)
+					 (call-interactively 'string-rectangle)
+				   (rectangle-mark-mode)))
 
-           (pranshu-define-key
-            (define-prefix-command 'setstuff-prefix-map)
-            ;; current name being hoverd on dired or current filepath of buffer
-            '(("j" . setstuff)
-              ("k" . (lambda () (interactive) (setstuff 1))) ;; prompt
-              ("l" . (lambda () (interactive) (setstuff 2)))) ;; clear
-            )
+			   (pranshu-define-key
+				(define-prefix-command 'bookmark-prefix-map)
+				'(("j" . bookmark-set)
+				  ("k" . bookmark-jump)
+				  ("l" . list-bookmarks)
+				  (";" . bookmark-rename)))
 
-
-           (defun pranshu-mode-comand()
-             (interactive)
-             (cond ((eq 'org-mode major-mode)
-                    (org-goto))
-                   ((eq 'lisp-mode major-mode)
-                    (call-interactively 'run-lisp))))
-
-           (defun pranshu-kill-whole-line()
-             (interactive)
-             (if current-prefix-arg
-                 (progn
-                   (kill-new (buffer-string))
-                   (delete-region (point-min) (point-max)))
-               (progn (if (region-active-p)
-                          (kill-region (region-beginning) (region-end) t)
-                        (kill-region (line-beginning-position) (line-beginning-position 2))))))
+			   (pranshu-define-key
+				(define-prefix-command 'writing-functions-map)
+				'(("a" . toggle-mode-line)
+				  ("s" . center-text-toggle)
+				  ("d" . center-text-flyspell)
+				  ("f" . set-colum-to-default)
+				  ("h" . flyspell-mode)))
 
 
-           (pranshu-define-key
-            (define-prefix-command 'file-nav-map)
-            '(("j" . find-file)
-              ("k" . find-file-other-window)
-              ("l" . revert-buffer)
-              ;;("a" . project-prefix-map)
-              ))
+
+			   ;; move select page to file editing because it is techniqualy rewriting files
 
 
-           (define-minor-mode pranshu-edit-mode()
-             "To edit faster if you are not a elite pianist"
-             :init-value nil
-             :global t
-             :keymap pranshu-edit-mode-map
-             (setq shift-select-mode nil)
-             (if pranshu-edit-mode
-                 (setq-default cursor-type 'box)
-               (setq-default cursor-type 'bar)
-               ))
 
-           (add-hook 'minibuffer-setup-hook (lambda () (pranshu-edit-mode -1)))
-           (add-hook 'minibuffer-exit-hook (lambda () (pranshu-edit-mode 1)))
+			   (pranshu-define-key
+				(define-prefix-command 'setstuff-prefix-map)
+				;; current name being hoverd on dired or current filepath of buffer
+				'(("j" . setstuff)
+				  ("k" . (lambda () (interactive) (setstuff 1))) ;; prompt
+				  ("l" . (lambda () (interactive) (setstuff 2)))) ;; clear
+				)
 
 
-           (global-set-key (kbd "C-SPC") 'pranshu-edit-mode)
-           (global-set-key (kbd "<home>") 'pranshu-edit-mode)
+			   (defun pranshu-kill-whole-line()
+				 (interactive)
+				 (if current-prefix-arg
+					 (progn
+					   (kill-new (buffer-string))
+					   (delete-region (point-min) (point-max)))
+				   (progn (if (region-active-p)
+							  (kill-region (region-beginning) (region-end) t)
+							(kill-region (line-beginning-position) (line-beginning-position 2))))))
 
-           (pranshu-edit-mode)
-           (global-set-key (kbd "M-SPC") 'pranshu-edit-mode)
+
+			   (pranshu-define-key
+				(define-prefix-command 'file-nav-map)
+				'(("j" . find-file)
+				  ("k" . find-file-other-window)
+				  ("l" . revert-buffer)
+				  ;;("a" . project-prefix-map)
+				  ))
 
 
-            ;; Org goto
-            (require 'org-goto)
+			   (define-minor-mode pranshu-edit-mode()
+				 "To edit faster if you are not a elite pianist"
+				 :init-value nil
+				 :global t
+				 :keymap pranshu-edit-mode-map
+				 (setq shift-select-mode nil)
+				 (if pranshu-edit-mode
+					 (setq-default cursor-type 'box)
+				   (setq-default cursor-type 'bar)
+				   ))
 
-        (defun org-goto--set-map ()
-        "Set the keymap `org-goto'."
-        (setq org-goto-map
-          (let ((map (make-sparse-keymap)))
-            (let ((cmds '(isearch-forward isearch-backward kill-ring-save set-mark-command
-                          mouse-drag-region universal-argument org-occur)))
-              (dolist (cmd cmds)
-                (substitute-key-definition cmd cmd map global-map)))
-            (suppress-keymap map)
+			   (add-hook 'minibuffer-setup-hook (lambda () (pranshu-edit-mode -1)))
+			   (add-hook 'minibuffer-exit-hook (lambda () (pranshu-edit-mode 1)))
 
-            (pranshu-define-key
-             map
-             '(("a" . org-cycle)
-               ("RET" . org-goto-ret)
-               ("j" . org-previous-visible-heading)
-               (";" . org-next-visible-heading)
-               ("k" . outline-backward-same-level)
-               ("l" . outline-forward-same-level)
-               ))
 
-            map)))
+			   (global-set-key (kbd "C-SPC") 'pranshu-edit-mode)
+			   (global-set-key (kbd "<home>") 'pranshu-edit-mode)
+			   (global-set-key (kbd "<insert>") 'pranshu-edit-mode)
+			   (global-set-key (kbd "<delete>") 'pranshu-edit-mode)
 
-    (electric-pair-mode)
+			(pranshu-edit-mode)
+			   (global-set-key (kbd "M-SPC") 'pranshu-edit-mode)
 
-    (global-set-key (kbd "C-l") 'forward-char)
-    (global-set-key (kbd "C-k") 'backward-char)
-    (global-set-key (kbd "C-j") 'hippie-expand)
+
+		(electric-pair-mode)
+
+		(global-set-key (kbd "C-l") 'forward-char)
+		(global-set-key (kbd "C-k") 'backward-char)
+		(global-set-key (kbd "C-=") 'text-scale-increase)
+		(global-set-key (kbd "C--") 'text-scale-decrease)
+
+
+
+
 
 #+end_src
-
 
