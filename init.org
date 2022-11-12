@@ -138,7 +138,6 @@ operations.
   ;;---------------------------------------------------------------------------
   ;;---------------------------------------------------------------------------
 
-  (setq gnusmailpath "~/GnusMail") ; Where the GnusMail shoud go.
   (add-to-list 'exec-path "C:/stuff/hunspell/bin") ; Spellchecker path only needed for windows
   (setq inferior-lisp-program "sbcl")
   (setq ghc-location (executable-find "ghci"))
@@ -146,6 +145,7 @@ operations.
   (setq norm-font "B612 Mono")
   (setq doc-view-resolution 350) ;; dpi
   (setq norm-font-height 22)
+  (setq gnusmailpath "~/emacs-var/gnusmail") ; Where the GnusMail shoud go.
 
   (setq send-mail-function 'smtpmail-send-it)
   (setq message-send-mail-function 'smtpmail-send-it)
