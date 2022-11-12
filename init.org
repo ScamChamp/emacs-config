@@ -18,8 +18,7 @@ None!
 
 
 
-*Code
-
+* Code
 
 ** Early init
 This is full of performance optimizations and major screen changing
